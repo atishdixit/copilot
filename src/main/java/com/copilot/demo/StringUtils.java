@@ -1,5 +1,16 @@
 package com.copilot.demo;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class StringUtils {
 public static String reverse(String s) {
         String result = "";
@@ -17,6 +28,7 @@ public static String reverse(String s) {
         }
         return result.trim();
     }
+
 
     public static String reverseWords2(String s) {
         String result = "";
@@ -126,6 +138,110 @@ public static String reverse(String s) {
 //        System.out.println(su.removeSubstring("hello world", "llo"));
 //    }
 
+    // method will return prefix of the string
+    public String prefix(String s) {
+        String result = "";
+        for (int i = 0; i < s.length(); i++) {
+            result += s.charAt(i);
+            if (s.substring(i + 1).contains(result)) {
+                return result;
+            }
+        }
+        return result;
+    }
 
+    //Method to check start and end of the string
+    public boolean checkStartEnd(String s, String start, String end) {
+        if (s.startsWith(start) && s.endsWith(end)) {
+            return true;
+        }
+        return false;
+    }
 
+    //Method to check contains of the substring
+    public boolean checkContains(String s, String sub) {
+        if (s.contains(sub)) {
+            return true;
+        }
+        return false;
+    }
+
+    //Method to split the string and return the List
+    public List<String> splitString(String s, String split) {
+        List<String> list = new ArrayList<>();
+        String[] arr = s.split(split);
+        for (String str : arr) {
+            list.add(str);
+        }
+        return list;
+    }
+
+    //Method to get occurance of the character in the string
+public int getOccurance(String s, char c) {
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == c) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Method to get count of each character in the string
+    public Map<Character, Integer> getCount(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (map.containsKey(c)) {
+                map.put(c, map.get(c) + 1);
+            } else {
+                map.put(c, 1);
+            }
+        }
+        return map;
+    }
+
+    // Method to check given pattern is present in the string
+    public boolean checkPattern(String s, String pattern) {
+        if (s.matches(pattern)) {
+            return true;
+        }
+        return false;
+    }
+
+    //Method to write generic method to convert string to any type
+    public <T> T convertString(String s, Class<T> type) {
+        if (type == Integer.class) {
+            return (T) Integer.valueOf(s);
+        } else if (type == Double.class) {
+            return (T) Double.valueOf(s);
+        } else if (type == Float.class) {
+            return (T) Float.valueOf(s);
+        } else if (type == Long.class) {
+            return (T) Long.valueOf(s);
+        } else if (type == Short.class) {
+            return (T) Short.valueOf(s);
+        } else if (type == Byte.class) {
+            return (T) Byte.valueOf(s);
+        } else if (type == Boolean.class) {
+            return (T) Boolean.valueOf(s);
+        } else if (type == Character.class) {
+            return (T) Character.valueOf(s.charAt(0));
+        } else if (type == String.class) {
+            return (T) s;
+        }
+        return null;
+    }
+
+    //Method to convert JSON string to Map
+    public Map<String, Object> convertJsonToMap(String json) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            map = new ObjectMapper().readValue(json, new TypeReference<Map<String, Object>>() {
+            });
+        } catch (IOException ex) {
+            Logger.getLogger(StringUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return map;
+    }
 }
